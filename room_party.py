@@ -1,6 +1,7 @@
 """ The room party problem
 
 Problema de sincronización obtenido de: The Little Book of Semaphores. Allen B Downey
+Autor: Santos Gallegos
 """
 
 import threading
@@ -33,7 +34,7 @@ class Decano:
 
 
 class Estudiante:
-    estudiantesin = 0
+    estudiantesin = 0  # Númeoro de estudiantes que está dentro del cuarto
 
     def __init__(self):
         pass
@@ -44,7 +45,7 @@ class Estudiante:
 
     def fiesta(self):
         print("Fiesta!")
-        time.sleep(0.2)
+        time.sleep(0.2)  # Sólo para simular el tiempo de espera entre la entrada y salida al cuarto
 
     def salir(self):
         Estudiante.estudiantesin -= 1
@@ -101,7 +102,7 @@ def estudiante_thread():
     if Estudiante.estudiantesin == 50 and not decano.dentro:
         lleno_vacio.signal()
     else:
-        mutuo.signal()  # Pasar relevo a otro estudiante
+        mutuo.signal()  # Pasar relevo a otro estudiante o al decano
 
     estudiante.fiesta()
     mutuo.wait()
@@ -115,7 +116,7 @@ def main():
     decano_t = threading.Thread(target=decano_thread)
 
     for i in range(100):
-        if i == 45:
+        if i == 45:  # Se puede variar en qué momento entra el decano (i = 0, i > 50)
             decano_t.start()
         e = threading.Thread(target=estudiante_thread)
         e.start()
